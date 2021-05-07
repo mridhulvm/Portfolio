@@ -9,9 +9,13 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="icon" href="https://media-exp1.licdn.com/dms/image/C5603AQGQz5FfnZU61A/profile-displayphoto-shrink_200_200/0/1614525368558?e=1625702400&v=beta&t=nWeimc-v1YU00DS7wOp6nrPExzZQeFwnv75NsWoL-nk" type="image/gif" sizes="16x16">
     
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   
 </head>
 <body>
+
+    
     <header class="bg-secondary" style="position: fixed;width :100%;z-index:1;">
         <div class="row text-white">
             <div class="col-md-6 col-9 pl-5 p-3 text-center">
@@ -168,7 +172,7 @@
         <!--Grid column-->
         <div class="col-md-9 mb-md-0 mb-5">
 
-            <form id="gform"  name="contact-form" action="https://script.google.com/macros/s/AKfycbxyX8DPtpOH0sCZey3pPFXz1uTo-GUeHj1pqMpHrDAtBvRijxp7bMliI96OOVRa19hzSg/exec" method="POST">
+            <form id="submit-form"   action="">
 
                 <!--Grid row-->
                 <div class="row">
@@ -176,8 +180,9 @@
                     <!--Grid column-->
                     <div class="col-md-6">
                         <div class="md-form mb-0">
-                            <input type="text" id="fname" name="name" class="form-control" required>
                             <label for="name" class="">Your name</label>
+                            <input type="text" id="name" name="name" class="form-control" onkeyup="nameValidate()" required>
+                            <p id="name-alert" style="color: red;"></p>
                         </div>
                     </div>
                     <!--Grid column-->
@@ -185,8 +190,10 @@
                     <!--Grid column-->
                     <div class="col-md-6">
                         <div class="md-form mb-0">
-                            <input type="email" id="lname" name="email" class="form-control"  required>
                             <label for="email" class="email">Your email</label>
+                            <input type="email" id="email" name="email" class="form-control" onkeyup="emailValidate()" required>
+                         
+                            <p id="email-alert" style="color: red;"></p>
                         </div>
                     </div>
                     <!--Grid column-->
@@ -195,7 +202,7 @@
                 <!--Grid row-->
 
                 <!--Grid row-->
-                <div class="row">
+                <!--<div class="row">
                     <div class="col-md-12">
                         <div class="md-form mb-0">
                             <label for="country" >Country</label>
@@ -208,8 +215,19 @@
                                 </select>
                         </div>
                     </div>
-                </div>
+                </div>-->
                 <!--Grid row-->
+                
+                    <!--Grid column-->
+                    <div class="col-md-6">
+                        <div class="md-form mb-0">
+                            <label for="number" class="number">Your phone number</label>
+                            <input type="tel" id="number" name="number" class="form-control" onkeyup="numberValidate()" required>
+                         
+                            <p id="number-alert" style="color: red;"></p>
+                        </div>
+                    </div>
+                    <!--Grid column-->
 
                 <!--Grid row-->
                 <div class="row">
@@ -218,8 +236,9 @@
                     <div class="col-md-12">
 
                         <div class="md-form">
-                            <textarea type="text" id="subject" name="message" rows="2" class="form-control md-textarea " required></textarea>
                             <label for="subject">Your subject</label>
+                            <textarea type="text" id="subject" name="message" rows="2" class="form-control md-textarea " required></textarea>
+                            
                             <br>
                             <input type="submit" value="Submit">
 
@@ -274,31 +293,93 @@
 </footer>
    
 
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
-    <script>
-        $("#submit-form").submit((e)=>{
-            e.preventDefault()
-            $.ajax({
-                url:"",
-                data:$("#submit-form").serialize(),
-                method:"post",
-                success:function (response){
-                    alert("Form submitted successfully")
-                    window.location.reload()
-                    //window.location.href="https://google.com"
-                },
-                error:function (err){
-                    alert("Something Error")
     
-                }
-            })
-        })
-    </script>
+    
       <!--icon script-->
       <script src="https://kit.fontawesome.com/2124099fd4.js" crossorigin="anonymous"></script>
+
+      <script>
+    
+        var flag1=0,flag2=0,flag3=0;
+ 
+          
+              
+        
+ 
+         
+         
+     
+           function emailValidate(){
+               var mailformat=/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+               var email = document.getElementById("email").value;
+               var emailAlert= document.getElementById('email-alert');
+ 
+               if (mailformat.test(email)) {
+                 flag1=1;
+                  emailAlert.innerHTML="";
+               }
+               else{
+                   flag1=0;
+                  emailAlert.innerHTML="invalid email";
+               }
+           }
+           function nameValidate(){
+               var nameformat= /^[a-zA-Z-,]+(\s{0,1}[a-zA-Z-, ])*$/;
+               var name = document.getElementById("name").value;
+               var nameAlert= document.getElementById('name-alert');
+ 
+               if (nameformat.test(name)) {
+                   flag2=1;
+                  nameAlert.innerHTML="";
+               }
+               else{
+                   flag2=0;
+                  nameAlert.innerHTML="invalid name";
+               }
+           }
+           function numberValidate(){
+               var numberformat= /^\d{10}$/;
+               var number= document.getElementById("number").value;
+               var numberAlert= document.getElementById('number-alert');
+ 
+               if (numberformat.test(number)) {
+                  flag3=1;
+                  numberAlert.innerHTML="";
+               }
+               else{
+                  flag3=0;
+                  numberAlert.innerHTML="invalid number";
+               }
+           }
+          
+           
+           $("#submit-form").submit((e)=>{
+              e.preventDefault()
+              if(flag1==1 && flag2==1 && flag3==1) {
+                 $.ajax({
+                  url:"https://script.google.com/macros/s/AKfycbxyX8DPtpOH0sCZey3pPFXz1uTo-GUeHj1pqMpHrDAtBvRijxp7bMliI96OOVRa19hzSg/exec",
+                  data:$("#submit-form").serialize(),
+                  method:"post",
+                     success:function (response){
+                      alert("Form submitted successfully")
+                         window.location.reload()
+                         //window.location.href="https://google.com"
+                 },
+                 error:function (err){
+                     alert("Submission Error")
+     
+                 }
+             })
+            }
+            else{
+                alert("Form error")
+            }
+         })
+ 
+       </script>
       
 </body>
 </html>
