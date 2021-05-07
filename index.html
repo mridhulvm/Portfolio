@@ -349,6 +349,10 @@
                   flag3=1;
                   numberAlert.innerHTML="";
                }
+               else if (number.length >10) {
+                   flag3=0;
+                   numberAlert.innerHTML="Phone number should be 10 digits"
+               } 
                else{
                   flag3=0;
                   numberAlert.innerHTML="invalid number";
